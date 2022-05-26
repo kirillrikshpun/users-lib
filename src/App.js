@@ -20,7 +20,7 @@ function App() {
   },[])
 
   return (
-    <Box>
+    <Box sx={{backgroundColor: 'purple'}} >
       <SnackbarProvider maxSnack={4}>
         { data &&  <MainComponent data = {data} />}
       </SnackbarProvider>
