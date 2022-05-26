@@ -10,8 +10,6 @@ export default function EditWindow({
 }) {
   const [changedUserData, setChangedUserData] = useState(selectedUser);
 
-  console.log(changedUserData);
-
   const style = {
     position: "absolute",
     top: "50%",

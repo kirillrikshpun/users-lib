@@ -25,8 +25,6 @@ const MainComponent = ({ data }) => {
     arr.length > 0 && setUsersArray(arr);
   }, [arr]);
 
-  console.log(arr);
-
   useEffect(() => {
     selectedUser ? setOpenEdit(true) : setOpenEdit(false);
   }, [selectedUser]);
