@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
+import React, { useState } from "react";
+import { Box, TextField, Modal } from "@mui/material";
 import WindowButtons from "./WindowButtons";
 
 export default function EditWindow({
@@ -45,8 +41,9 @@ export default function EditWindow({
           }}
           autoComplete="off"
         >
-          <div>
+          <Box sx={{ display: "grid", justifyContent: "center" }}>
             <TextField
+              label="First name"
               value={changedUserData.name.first}
               onChange={(event) => {
                 setChangedUserData((changedUserData) => ({
@@ -56,6 +53,7 @@ export default function EditWindow({
               }}
             />
             <TextField
+              label="Last name"
               value={changedUserData.name.last}
               onChange={(event) => {
                 setChangedUserData((changedUserData) => ({
@@ -65,6 +63,7 @@ export default function EditWindow({
               }}
             />
             <TextField
+              label="Email"
               value={changedUserData.email}
               onChange={(event) => {
                 setChangedUserData((changedUserData) => ({
@@ -73,10 +72,9 @@ export default function EditWindow({
                 }));
               }}
             />
-          </div>
 
-          <div>
             <TextField
+              label="Country"
               value={changedUserData.location.country}
               onChange={(event) => {
                 setChangedUserData((changedUserData) => ({
@@ -89,6 +87,7 @@ export default function EditWindow({
               }}
             />
             <TextField
+              label="City"
               value={changedUserData.location.city}
               onChange={(event) => {
                 setChangedUserData((changedUserData) => ({
@@ -100,8 +99,8 @@ export default function EditWindow({
                 }));
               }}
             />
-            <div>
-              <TextField
+            <TextField
+              label="Street name"
               value={changedUserData.location.street.name}
               onChange={(event) => {
                 setChangedUserData((changedUserData) => ({
@@ -115,8 +114,9 @@ export default function EditWindow({
                   },
                 }));
               }}
-              />
-               <TextField
+            />
+            <TextField
+              label="Street number"
               value={changedUserData.location.street.number}
               onChange={(event) => {
                 setChangedUserData((changedUserData) => ({
@@ -130,14 +130,13 @@ export default function EditWindow({
                   },
                 }));
               }}
-              />
-             
-            </div>
-            
-
-          </div>
-
-          <WindowButtons usersArray={usersArray} changedUserData = {changedUserData} handleEditClose = {handleEditClose}/>
+            />
+          </Box>
+          <WindowButtons
+            usersArray={usersArray}
+            changedUserData={changedUserData}
+            handleEditClose={handleEditClose}
+          />
         </Box>
       </Box>
     </Modal>

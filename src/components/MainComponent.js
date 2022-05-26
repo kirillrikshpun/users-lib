@@ -1,41 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { useSnackbar } from "notistack";
-import { Box } from "@mui/material";
+import { Box, Fab, Grid } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import { fetchUsers } from "../redux/actions/users.actions";
 import { useDispatch, useSelector } from "react-redux";
-import Grid from "@mui/material/Grid";
-import UserCard from "./UserCard"
+import UserCard from "./UserCard";
 import EditWindow from "./EditWindow";
+import NewUserForm from "./NewUserForm";
 
-const MainComponent = ({data}) => {
-    const [usersArray, setUsersArray] = useState([]);
-    const [selectedUser, setSelectedUser] = useState(null)
-    const [openEdit, setOpenEdit] = useState(false);
-    const handleEditClose = () => setSelectedUser(null)
+const MainComponent = ({ data }) => {
+  const [usersArray, setUsersArray] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openNewUser, setOpenNewUser] = useState(false);
+  const handleEditClose = () => setSelectedUser(null);
 
-    const dispatch = useDispatch();
-    useEffect(() => {
-       dispatch(fetchUsers(data))
-    }, [data])
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUsers(data));
+  }, [data]);
 
-    const arr = useSelector((state) => state.users.users);
-    useEffect(() => {
-        arr.length > 0 && setUsersArray(arr)
-    }, [arr])
+  const arr = useSelector((state) => state.users.users);
+  useEffect(() => {
+    arr.length > 0 && setUsersArray(arr);
+  }, [arr]);
 
-    console.log(arr)
+  console.log(arr);
 
-    useEffect(() => {
-       selectedUser ? setOpenEdit(true) : setOpenEdit(false)
-    },[selectedUser])
+  useEffect(() => {
+    selectedUser ? setOpenEdit(true) : setOpenEdit(false);
+  }, [selectedUser]);
 
   return (
     <Box sx={{ display: "grid" }}>
-        <Grid container spacing={ 2 } columns={{ xl: 4, xs: 4, md: 4 }}>
+      <Grid container spacing={2} columns={{ xl: 4, xs: 4, md: 4 }}>
+        {openNewUser && <NewUserForm />}
         {usersArray.map((elem, idx) => {
           return (
-            <Grid item xl={ 1 } xs={ 4 } md={ 2 } key={idx}>
-            <Box sx = {{padding: "1rem"}} key = {elem.phone}>
+            <Grid item xl={1} xs={4} md={2} key={idx}>
+              <Box sx={{ padding: "1rem" }} key={elem.phone}>
                 <Box
                   sx={{
                     p: 2,
@@ -47,23 +50,42 @@ const MainComponent = ({data}) => {
                 >
                   <Box key={elem.phone}>
                     <UserCard
-                      setSelectedUser = {setSelectedUser}
+                      setSelectedUser={setSelectedUser}
                       userData={elem}
                     />
                   </Box>
                 </Box>
-             
-            </Box>
+              </Box>
             </Grid>
           );
         })}
+      </Grid>
 
+      <Fab
+        onClick={() => setOpenNewUser(!openNewUser)}
+        sx={{
+          margin: 0,
+          top: "auto",
+          right: 40,
+          bottom: 40,
+          left: "auto",
+          position: "fixed",
+        }}
+        color={openNewUser ? "error" : "success"}
+        aria-label="add"
+      >
+        {openNewUser ? <RemoveIcon /> : <AddIcon />}
+      </Fab>
 
-        </Grid>
-
-
-        {selectedUser && <EditWindow usersArray = {usersArray}  openEdit = {openEdit} selectedUser={selectedUser} handleEditClose = {handleEditClose} />}
-      </Box>
+      {selectedUser && (
+        <EditWindow
+          usersArray={usersArray}
+          openEdit={openEdit}
+          selectedUser={selectedUser}
+          handleEditClose={handleEditClose}
+        />
+      )}
+    </Box>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { Button } from "@mui/material";
@@ -12,9 +12,11 @@ function WindowButtons({ usersArray, changedUserData, handleEditClose }) {
 
   const validation = () => {
     let isValid = true;
-    const arrayOfEmails = usersArray.map(elem => {
-      return elem.email
-    }).filter(e => e !== changedUserData.email)
+    const arrayOfEmails = usersArray
+      .map((elem) => {
+        return elem.email;
+      })
+      .filter((e) => e !== changedUserData.email);
 
     const validationSchema = yup.object({
       firstName: yup.string().min(3).required(),
@@ -38,24 +40,24 @@ function WindowButtons({ usersArray, changedUserData, handleEditClose }) {
         { abortEarly: false }
       );
     } catch (error) {
-      error.errors.forEach(elem => {
-        enqueueSnackbar(elem, {variant: 'error'});
-      })
-      error.errors.length > 0 && (isValid = false)
+      error.errors.forEach((elem) => {
+        enqueueSnackbar(elem, { variant: "error" });
+      });
+      error.errors.length > 0 && (isValid = false);
     }
 
-    return isValid
+    return isValid;
   };
 
   const saveChanges = () => {
-    if(validation()) {
-      dispatch(editUsers(changedUserData))
-      handleEditClose()
+    if (validation()) {
+      dispatch(editUsers(changedUserData));
+      handleEditClose();
     }
-  }
+  };
 
   return (
-    <Box>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
       <Button onClick={() => saveChanges()}>save</Button>
       <Button onClick={() => handleEditClose()}>cancel</Button>
     </Box>
